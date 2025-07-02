@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Politics Quiz</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #f1f1f1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    header.header {
+      width: 100%;
+      padding: 1.5rem;
+      background: rgba(0,0,0,0.2);
+      border-bottom: 2px solid #ffffff22;
+      text-align: center;
+    }
+
+    header.header h1 {
+      font-size: 2.5rem;
+      color: #ffd700;
+    }
+
+    nav a {
+      color: #00d1b2;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover { color: #ffc107; }
+
+    #login-screen {
+      background: rgba(255,255,255,0.07);
+      border-radius: 1rem;
+      padding: 2rem;
+      max-width: 750px;
+      width: 100%;
+      text-align: center;
+      animation: slideIn 1s ease forwards;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+      margin-top: 2rem;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    #login-screen img {
+      max-width: 700px;
+      width: 100%;
+      border-radius: 1rem;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+      margin-bottom: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    #login-screen img:hover { transform: scale(1.05); }
+
+    .container {
+      background-color: transparent;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      color: #e8e6ed;
+      line-height: 1.6;
+      font-size: 1.05rem;
+      text-align: left;
+    }
+
+    .content-fact {
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+      margin: 2rem 0;
+    }
+
+    .content-fact .fact-text {
+      font-size: 1.1em;
+      color: #ccefff;
+    }
+
+    .about {
+      font-size: 1.15rem;
+      color: #b0d8ff;
+      max-width: 700px;
+      margin: 1.5rem auto;
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    .about a {
+      color: #f30889;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .about a:hover { color: #9b067b; text-decoration: underline; }
+
+    .restart-button {
+      background: linear-gradient(90deg, #ffc107, #ff9800);
+      color: #000;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.9rem 2rem;
+      border-radius: 2rem;
+      border: none;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      box-shadow: 0 8px 20px rgba(255,193,7,0.5);
+      transition: all 0.3s ease;
+    }
+
+    .restart-button:hover {
+      background: linear-gradient(90deg, #ff9800, #ff5722);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .quiz-container {
+      display: none;
+      background-color: #1e2a38;
+      width: 90%;
+      max-width: 600px;
+      margin-top: 2rem;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      text-align: center;
+    }
+
+    .quiz-container h1 {
+      font-size: 2rem;
+      color: #ffd700;
+      margin-bottom: 1rem;
+    }
+
+    .choice {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      background: #3a506b;
+      color: #fff;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+
+    .choice:hover {
+      background: #5c7080;
+      transform: scale(1.03);
+    }
+
+    .correct { background-color: #218739 !important; }
+    .incorrect { background-color: #a12828 !important; }
+
+    #feedback {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #ffd700;
+    }
+
+    .summary-table {
+      width: 100%;
+      margin-top: 2rem;
+      background-color: #243447;
+      border-collapse: collapse;
+      color: white;
+    }
+
+    .summary-table td, th {
+      border: 1px solid #444;
+      padding: 0.75rem;
+      text-align: left;
+    }
+
+    .correct-text { color: #0a8e29; }
+    .incorrect-text { color: #ff4c4c; }
+
+    .home-button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      margin-top: 2rem;
+      padding: 0.75rem 2rem;
+      border-radius: 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .home-button:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+
+    footer { text-align: center; padding: 1rem; color: #ddd; margin-top: 3rem; }
+
+    @media screen and (max-width: 600px) {
+      #login-screen { padding: 1.5rem; }
+      .choice { font-size: 0.95rem; }
+      header.header h1 { font-size: 2rem; }
+      .content-fact, .container, .about { text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="header">
+    <h1> Quiz Time!</h1>
+    <nav><a href="about.html">About Me</a></nav>
+  </header>
+
+  <div id="login-screen">
+    <img src="q1.jpg" alt="Quiz Banner"/>
+    <div class="container">
+      <p>
+        A quiz is a fun way to test knowledge. Teachers use it to engage learners effectively.
+      </p>
+    </div>
+
+    <div class="content-fact">
+      <div class="fact-text">
+        🗳️  Did you know?<br><br>
+      The Word “Politics” Comes From Greek
+It originates from the Greek word “politika”, meaning “affairs of the cities.”
+
+Democracy Was Born in Ancient Athens
+The concept of democracy began in Athens around 508 BCE, where citizens could vote directly on laws.
+
+India Is the World’s Largest Democracy
+With over 900 million eligible voters, India holds the record for the largest democratic elections.</div>
+    </div>
+
+    <p class="about">
+      Hi, I’m <strong><a href="about.html">Kasinathan</a></strong> – a passionate <strong>Java Full Stack Developer</strong>.<br>
+      I thrive on learning new technologies, contributing to open-source, and crafting meaningful digital experiences—just like this interactive quiz!
+      Click my name to know more about me.<br><br><strong>"Dare to know, dare to quiz!"</strong><br>Let’s see how well you know politics. Ready?
+    </p>
+
+    <button onclick="startQuiz()" class="restart-button">Start Quiz</button>
+  </div>
+
+  <div class="quiz-container" id="quiz">
+    <h1>Quiz Time!</h1>
+    <div class="question">
+      <p id="question-text"><i>Loading...</i></p>
+      <div class="choices">
+        <button class="choice" onclick="checkAnswer(0)"></button>
+        <button class="choice" onclick="checkAnswer(1)"></button>
+        <button class="choice" onclick="checkAnswer(2)"></button>
+        <button class="choice" onclick="checkAnswer(3)"></button>
+      </div>
+    </div>
+    <p id="feedback"></p>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Kasinathan. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function startQuiz() {
+      document.getElementById("login-screen").style.display = "none";
+      document.querySelector(".quiz-container").style.display = "block";
+      showQuestion();
+    }
+
+    const questions = [
+      { question: "Who is the current Prime Minister of India (as of 2024)?", choices: ["Rahul Gandhi","Narendra Modi","Amit Shah","Arvind Kejriwal"], correct: 1 },
+      { question: "What is the full form of BJP?", choices: ["Bharatiya Janata Party","Bharat Justice Party","Bharatiya Janta Parishad","Bureau of Janata Power"], correct: 0 },
+      { question: "Which Article guarantees the Right to Equality?", choices: ["Article 14","Article 21","Article 370","Article 356"], correct: 0 },
+      { question: "Who was the first President of independent India?", choices: ["Jawaharlal Nehru","B.R. Ambedkar","Rajendra Prasad","Sardar Patel"], correct: 2 },
+      { question: "What type of government does India follow?", choices: ["Monarchy","Presidential","Dictatorship","Parliamentary Democracy"], correct: 3 },
+      { question: "Which house is Upper House in Indian Parliament?", choices: ["Lok Sabha","Rajya Sabha","Vidhan Sabha","Sansad Bhawan"], correct: 1 },
+      { question: "Which body conducts elections in India?", choices: ["Supreme Court","Cabinet","Election Commission","Parliament"], correct: 2 },
+      { question: "How many members are nominated by the President to Rajya Sabha?", choices: ["5","10","12","15"], correct: 2 },
+      { question: "Who is known as Father of the Indian Constitution?", choices: ["Mahatma Gandhi","Jawaharlal Nehru","Subhas Chandra Bose","B.R. Ambedkar"], correct: 3 },
+      { question: "What is the tenure of the President of India?", choices: ["3 years","4 years","5 years","6 years"], correct: 2 },
+    ];
+
+    let currentQuestion = 0, correctAnswers = 0;
+    const userSelections = [];
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById("question-text").innerHTML = `<strong>Q${currentQuestion+1}:</strong> ${q.question}`;
+      const btns = document.querySelectorAll(".choice");
+      btns.forEach((b,i) => {
+        b.textContent = q.choices[i];
+        b.classList.remove("correct","incorrect");
+        b.disabled = false;
+      });
+      document.getElementById("feedback").textContent = "";
+    }
+
+    function checkAnswer(sel) {
+      const q = questions[currentQuestion];
+      const btns = document.querySelectorAll(".choice");
+      userSelections.push({ question: q.question, selected: sel, correct: q.correct });
+      btns.forEach((b,i)=>{
+        b.disabled = true;
+        if (i === q.correct) b.classList.add("correct");
+      });
+      document.getElementById("feedback").textContent = (sel === q.correct ? "🎉 Correct!" : "❌ Incorrect!");
+      if (sel !== q.correct) btns[sel]?.classList.add("incorrect");
+      else correctAnswers++;
+      setTimeout(() => {
+        currentQuestion++;
+        if (currentQuestion < questions.length) showQuestion();
+        else { showSummary(); showScorePopup(); }
+      }, 1500);
+    }
+
+    function showSummary() {
+      const cont = document.querySelector(".quiz-container");
+      cont.innerHTML = `
+        <h2>📊 Quiz Summary</h2>
+        <table class="summary-table"><thead><tr><th>Question</th><th>Your Answer</th><th>Correct Answer</th></tr></thead><tbody class="summary"></tbody></table>
+      `;
+      const tbody = cont.querySelector(".summary");
+      userSelections.forEach((s,i)=>{
+        const q = questions[i];
+        const correct = s.selected === s.correct;
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${q.question}</td>
+          <td class="${correct? 'correct-text':'incorrect-text'}">${q.choices[s.selected]||"No Answer"}</td>
+          <td>${q.choices[q.correct]}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+      const btn = document.createElement("button");
+      btn.textContent = "Go Back Home";
+      btn.className = "home-button";
+      btn.onclick = () => location.reload();
+      cont.appendChild(btn);
+    }
+
+    function showScorePopup() {
+      Swal.fire({
+        title: `🎯 Your Score: <span style="color:#ffd700;">${correctAnswers}/${questions.length}</span>`,
+        icon: 'success',
+        html: `<p style="font-size:1.2em;color:#fff;">You've completed the quiz! Well done!</p>`,
+        background: '#1e2a38',
+        confirmButtonText: 'Done',
+        confirmButtonColor: '#ffd700'
+      });
+    }
+  </script>
+</body>
+</html>

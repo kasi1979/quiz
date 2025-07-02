@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kasinathan Portfolio</title>
+  <style>
+    /* Global Styles */
+    body {
+      background: linear-gradient(to right, #012847, #54023d);
+      margin: 0;
+      padding: 2rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #dff6f5;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center;
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    /* Profile Card */
+    .content {
+      background-color: rgba(0, 0, 0, 0.3);
+      border: 2px solid #0fffc1;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 400px;
+      padding: 30px 20px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .content:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
+    }
+
+    /* Image Styling */
+    .photo {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #00ffae;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .photo:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 15px #ffffff;
+    }
+
+    /* Headings */
+    h1 {
+      color: #00ff7f;
+      margin-top: 15px;
+    }
+
+    h2, h3 {
+      color: #00ffaa;
+      margin: 10px 0;
+    }
+
+    p {
+      margin-top: 10px;
+      text-align: justify;
+      font-size: 16px;
+    }
+
+    strong {
+      color: #04eb2b;
+    }
+
+    /* Contact Section */
+    .contact {
+      background-color: rgba(0, 0, 0, 0.3);
+      border: 2px solid #0fffc1;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 600px;
+      padding: 25px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .contact:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Links */
+    a {
+      color: #06ef4c;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #ffffff;
+    }
+
+    /* Button Styling */
+    .back-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #06ef4c;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .back-btn:hover {
+      background-color: #03c53f;
+      transform: scale(1.05);
+      color: #fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .content, .contact {
+        max-width: 90%;
+        padding: 20px;
+      }
+
+      .photo {
+        width: 100px;
+        height: 100px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      h2, h3 {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="content">
+      <img src="p2.jpg" alt="Kasinathan photo" class="photo" />
+      <h1>Hi, I'm Kasinathan</h1>
+      <p>
+        I’m a passionate <strong>Java Full Stack Developer</strong> dedicated to crafting clean code,
+        building scalable systems, and solving complex problems through technology.
+        <br /><br />
+        My expertise lies in <strong>Java, Spring Boot, Hibernate, JavaScript,</strong> and
+        <strong>React</strong>, enabling me to create interactive, efficient, and user-friendly web applications.
+        <br /><br />
+        I thrive on learning new technologies, contributing to open-source projects, and creating meaningful digital experiences — just like this interactive quiz!
+      </p>
+    <a href="index.html" class="back-btn">⬅️ Back to Quiz</a>
+</div>
+
+    <div class="contact">
+      <h2>Contact Me</h2>
+      <h3><a href="mailto:nathankasi035@gmail.com">📧 nathankasi035@gmail.com</a></h3>
+      <h3><a href="https://github.com/kasi1979?tab=repositories" target="_blank">🔗 GitHub Profile</a></h3>
+    </div>
+  </div>
+</body>
+</html>
