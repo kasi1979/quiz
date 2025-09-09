@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Politics Quiz</title>
+  <title>Java Quiz</title>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
@@ -222,35 +222,31 @@
 
 <body>
   <header class="header">
-    <h1> Quiz Time!</h1>
+    <h1> Java Quiz Time!</h1>
     <nav><a href="about.html">About Me</a></nav>
   </header>
 
   <div id="login-screen">
-    <img src="q1.jpg" alt="Quiz Banner"/>
+    <img src="java-banner.jpg" alt="Java Quiz Banner"/>
     <div class="container">
       <p>
-        A quiz is a fun way to test knowledge. Teachers use it to engage learners effectively.
+        A quiz is a fun way to test your Java knowledge. Practice with these questions to improve your skills!
       </p>
     </div>
 
     <div class="content-fact">
       <div class="fact-text">
-        🗳️  Did you know?<br><br>
-      The Word “Politics” Comes From Greek
-It originates from the Greek word “politika”, meaning “affairs of the cities.”
-
-Democracy Was Born in Ancient Athens
-The concept of democracy began in Athens around 508 BCE, where citizens could vote directly on laws.
-
-India Is the World’s Largest Democracy
-With over 900 million eligible voters, India holds the record for the largest democratic elections.</div>
+        ☕ Did you know?<br><br>
+        • Java was created by James Gosling at Sun Microsystems in 1995.<br>
+        • The name "Java" comes from coffee, as developers loved drinking it while coding.<br>
+        • The slogan of Java is <strong>"Write Once, Run Anywhere (WORA)"</strong>.
+      </div>
     </div>
 
     <p class="about">
       Hi, I’m <strong><a href="about.html">Kasinathan</a></strong> – a passionate <strong>Java Full Stack Developer</strong>.<br>
-      I thrive on learning new technologies, contributing to open-source, and crafting meaningful digital experiences—just like this interactive quiz!
-      Click my name to know more about me.<br><br><strong>"Dare to know, dare to quiz!"</strong><br>Let’s see how well you know politics. Ready?
+      I thrive on learning new technologies, contributing to open-source, and crafting meaningful digital experiences—just like this interactive quiz!<br><br>
+      <strong>"Code. Compile. Run. Repeat."</strong><br> Let’s test how well you know Java. Ready?
     </p>
 
     <button onclick="startQuiz()" class="restart-button">Start Quiz</button>
@@ -282,16 +278,16 @@ With over 900 million eligible voters, India holds the record for the largest de
     }
 
     const questions = [
-      { question: "Who is the current Prime Minister of India (as of 2024)?", choices: ["Rahul Gandhi","Narendra Modi","Amit Shah","Arvind Kejriwal"], correct: 1 },
-      { question: "What is the full form of BJP?", choices: ["Bharatiya Janata Party","Bharat Justice Party","Bharatiya Janta Parishad","Bureau of Janata Power"], correct: 0 },
-      { question: "Which Article guarantees the Right to Equality?", choices: ["Article 14","Article 21","Article 370","Article 356"], correct: 0 },
-      { question: "Who was the first President of independent India?", choices: ["Jawaharlal Nehru","B.R. Ambedkar","Rajendra Prasad","Sardar Patel"], correct: 2 },
-      { question: "What type of government does India follow?", choices: ["Monarchy","Presidential","Dictatorship","Parliamentary Democracy"], correct: 3 },
-      { question: "Which house is Upper House in Indian Parliament?", choices: ["Lok Sabha","Rajya Sabha","Vidhan Sabha","Sansad Bhawan"], correct: 1 },
-      { question: "Which body conducts elections in India?", choices: ["Supreme Court","Cabinet","Election Commission","Parliament"], correct: 2 },
-      { question: "How many members are nominated by the President to Rajya Sabha?", choices: ["5","10","12","15"], correct: 2 },
-      { question: "Who is known as Father of the Indian Constitution?", choices: ["Mahatma Gandhi","Jawaharlal Nehru","Subhas Chandra Bose","B.R. Ambedkar"], correct: 3 },
-      { question: "What is the tenure of the President of India?", choices: ["3 years","4 years","5 years","6 years"], correct: 2 },
+      { question: "Who is known as the father of Java programming language?", choices: ["James Gosling","Dennis Ritchie","Bjarne Stroustrup","Guido van Rossum"], correct: 0 },
+      { question: "Which keyword is used to inherit a class in Java?", choices: ["implement","super","extends","inherit"], correct: 2 },
+      { question: "Which of these is not a Java feature?", choices: ["Object-Oriented","Portable","Platform-Dependent","Secure"], correct: 2 },
+      { question: "Which method is the entry point of a Java program?", choices: ["start()","main()","run()","init()"], correct: 1 },
+      { question: "Which of the following is not a Java primitive data type?", choices: ["int","boolean","String","double"], correct: 2 },
+      { question: "Which keyword is used to define a constant variable in Java?", choices: ["const","final","static","constant"], correct: 1 },
+      { question: "Which package is automatically imported in every Java program?", choices: ["java.sql","java.util","java.lang","java.io"], correct: 2 },
+      { question: "Which operator is used to compare two values in Java?", choices: ["=","==","equals","!="], correct: 1 },
+      { question: "Which collection class allows key-value pairs in Java?", choices: ["List","Set","Map","Queue"], correct: 2 },
+      { question: "Which JVM component is responsible for garbage collection?", choices: ["Class Loader","Execution Engine","Heap Manager","Garbage Collector"], correct: 3 }
     ];
 
     let currentQuestion = 0, correctAnswers = 0;
