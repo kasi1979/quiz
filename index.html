@@ -1,203 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Java Core Quiz</title>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #1e2a38, #3b5360);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .quiz-container {
-      display: none;
-      width: 90%;
-      max-width: 700px;
-      background: #243447;
-      padding: 20px;
-      border-radius: 20px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-    }
-    .login-container {
-      text-align: center;
-      padding: 20px;
-    }
-    h2 { text-align: center; }
-    .choice-container {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin: 15px 0;
-    }
-    .choice {
-      background: #34495e;
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-    }
-    .choice:hover { background: #2ecc71; transform: scale(1.03); }
-    .correct { background: #27ae60 !important; }
-    .incorrect { background: #e74c3c !important; }
-    #feedback { text-align: center; margin-top: 10px; font-size: 18px; }
-    #explanation { text-align: center; margin-top: 5px; font-size: 16px; color: #ffd700; }
-    .summary-table {
-      width: 100%; border-collapse: collapse; margin-top: 20px;
-    }
-    .summary-table th, .summary-table td {
-      border: 1px solid #444; padding: 8px; text-align: left;
-    }
-    .summary-table th { background: #2c3e50; }
-    .summary-table td { background: #3b5360; }
-    .home-button {
-      display: block; margin: 20px auto; padding: 12px 25px;
-      border: none; border-radius: 15px; background: #3498db;
-      color: white; font-size: 16px; cursor: pointer;
-    }
-    .home-button:hover { background: #2980b9; }
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Java Core Quiz</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #1a232e;
+            --card-bg: #212b38;
+            --primary-color: #4CAF50;
+            --primary-hover: #45a049;
+            --text-color: #e0e0e0;
+            --accent-color: #FFC107;
+            --correct-color: #4CAF50;
+            --incorrect-color: #F44336;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            text-align: center;
+            box-sizing: border-box;
+            transition: all 0.4s ease-in-out;
+        }
+
+        h1, h2 {
+            color: var(--accent-color);
+            margin-top: 0;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: 700;
+            color: white;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-3px);
+        }
+
+        .quiz-container {
+            display: none;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-align: left;
+            padding-left: 10px;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .choice-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .choice {
+            background: #323d4e;
+            color: var(--text-color);
+            border: none;
+            padding: 15px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .choice:hover:not([disabled]) {
+            background: #4a576b;
+            transform: scale(1.02);
+        }
+        
+        .choice[disabled] {
+            cursor: default;
+        }
+
+        .choice.correct {
+            background: var(--correct-color) !important;
+            box-shadow: 0 0 15px var(--correct-color);
+        }
+
+        .choice.incorrect {
+            background: var(--incorrect-color) !important;
+        }
+
+        #feedback, #explanation {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        #explanation {
+            font-size: 1em;
+            color: #b0bec5;
+        }
+
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .summary-table th, .summary-table td {
+            border: 1px solid #3d4c5c;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .summary-table th {
+            background: #2b3543;
+            color: var(--accent-color);
+        }
+
+        .summary-table tr:nth-child(even) td {
+            background: #28303d;
+        }
+
+        .summary-table tr:nth-child(odd) td {
+            background: #242c38;
+        }
+
+        .home-button {
+            display: block;
+            margin: 30px auto 0;
+            width: fit-content;
+            padding: 12px 25px;
+            font-size: 1em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            .button {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+            .question-text {
+                font-size: 1.1em;
+            }
+            .choice {
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="login-container" id="login-screen">
-    <br><br>
-    <button onclick="startQuiz()" style="padding:12px 20px;border:none;border-radius:10px;background:#3498db;color:white;font-size:16px;">Start Quiz</button>
-  </div>
-
-  <div class="quiz-container">
-    <h2>📘 Java Core Quiz</h2>
-    <p id="question-text"></p>
-    <div class="choice-container">
-      <button class="choice" onclick="checkAnswer(0)"></button>
-      <button class="choice" onclick="checkAnswer(1)"></button>
-      <button class="choice" onclick="checkAnswer(2)"></button>
-      <button class="choice" onclick="checkAnswer(3)"></button>
+    <div class="container" id="home-screen">
+        <h1>🎓 Welcome to the Java Core Quiz!</h1>
+        <p>
+            Test your knowledge on fundamental Java concepts with this interactive quiz.
+            Each question is designed to challenge your understanding of key topics,
+            from data types to object-oriented principles.
+        </p>
+        <button class="button" onclick="startQuiz()">Start Quiz</button>
     </div>
-    <p id="feedback"></p>
-    <p id="explanation"></p>
-  </div>
+
+    <div class="container quiz-container" id="quiz-screen">
+        <h2>📘 Java Core Quiz</h2>
+        <p class="question-text" id="question-text"></p>
+        <div class="choice-container">
+            <button class="choice" onclick="checkAnswer(0)"></button>
+            <button class="choice" onclick="checkAnswer(1)"></button>
+            <button class="choice" onclick="checkAnswer(2)"></button>
+            <button class="choice" onclick="checkAnswer(3)"></button>
+        </div>
+        <p id="feedback"></p>
+        <p id="explanation"></p>
+    </div>
 
 <script>
-  function startQuiz() {
-    document.getElementById("login-screen").style.display = "none";
-    document.querySelector(".quiz-container").style.display = "block";
-    showQuestion();
-  }
+    const questions = [
+        {question:"Which keyword is used to define a constant variable in Java?",choices:["const","final","static","constant"],correct:1,explanation:"`final` makes a variable constant. `const` is reserved but unused."},
+        {question:"Which of these is not a Java feature?",choices:["Object-Oriented","Portable","Platform-Dependent","Secure"],correct:2,explanation:"Java is platform-independent, unlike C/C++."},
+        {question:"Which method is the entry point of a Java program?",choices:["start()","main()","run()","init()"],correct:1,explanation:"Execution begins with public static void main(String[] args)."},
+        {question:"Which of the following is not a primitive data type?",choices:["int","boolean","String","double"],correct:2,explanation:"`String` is a class, not primitive."},
+        {question:"Which operator compares two values in Java?",choices:["=","==","equals","!="],correct:1,explanation:"`==` compares primitives. `.equals()` compares objects."},
+        {question:"Which collection allows key-value pairs?",choices:["List","Set","Map","Queue"],correct:2,explanation:"`Map` stores key-value pairs."},
+        {question:"Who is the father of Java?",choices:["James Gosling","Dennis Ritchie","Bjarne Stroustrup","Guido van Rossum"],correct:0,explanation:"James Gosling created Java at Sun Microsystems."},
+        {question:"Which package is imported automatically?",choices:["java.sql","java.util","java.lang","java.io"],correct:2,explanation:"`java.lang` is always imported."},
+        {question:"Which JVM component handles garbage collection?",choices:["Class Loader","Execution Engine","Heap Manager","Garbage Collector"],correct:3,explanation:"Garbage Collector reclaims unused memory."},
+        {question:"Which keyword is used for inheritance?",choices:["implement","super","extends","inherit"],correct:2,explanation:"`extends` is used for class inheritance."}
+    ];
 
-  const questions = [
-    {question:"Which keyword is used to define a constant variable in Java?",choices:["const","final","static","constant"],correct:1,explanation:"`final` makes a variable constant. `const` is reserved but unused."},
-    {question:"Which of these is not a Java feature?",choices:["Object-Oriented","Portable","Platform-Dependent","Secure"],correct:2,explanation:"Java is platform-independent, unlike C/C++."},
-    {question:"Which method is the entry point of a Java program?",choices:["start()","main()","run()","init()"],correct:1,explanation:"Execution begins with public static void main(String[] args)."},
-    {question:"Which of the following is not a primitive data type?",choices:["int","boolean","String","double"],correct:2,explanation:"`String` is a class, not primitive."},
-    {question:"Which operator compares two values in Java?",choices:["=","==","equals","!="],correct:1,explanation:"`==` compares primitives. `.equals()` compares objects."},
-    {question:"Which collection allows key-value pairs?",choices:["List","Set","Map","Queue"],correct:2,explanation:"`Map` stores key-value pairs."},
-    {question:"Who is the father of Java?",choices:["James Gosling","Dennis Ritchie","Bjarne Stroustrup","Guido van Rossum"],correct:0,explanation:"James Gosling created Java at Sun Microsystems."},
-    {question:"Which package is imported automatically?",choices:["java.sql","java.util","java.lang","java.io"],correct:2,explanation:"`java.lang` is always imported."},
-    {question:"Which JVM component handles garbage collection?",choices:["Class Loader","Execution Engine","Heap Manager","Garbage Collector"],correct:3,explanation:"Garbage Collector reclaims unused memory."},
-    {question:"Which keyword is used for inheritance?",choices:["implement","super","extends","inherit"],correct:2,explanation:"`extends` is used for class inheritance."}
-  ];
+    let currentQuestion = 0, correctAnswers = 0;
+    const userSelections = [];
 
-  let currentQuestion = 0, correctAnswers = 0;
-  const userSelections = [];
-
-  function showQuestion() {
-    const q = questions[currentQuestion];
-    document.getElementById("question-text").innerHTML = `<strong>Q${currentQuestion+1}:</strong> ${q.question}`;
-    const btns = document.querySelectorAll(".choice");
-    btns.forEach((b,i) => {
-      b.textContent = q.choices[i];
-      b.classList.remove("correct","incorrect");
-      b.disabled = false;
-    });
-    document.getElementById("feedback").textContent = "";
-    document.getElementById("explanation").textContent = "";
-  }
-
-  function checkAnswer(sel) {
-    const q = questions[currentQuestion];
-    const btns = document.querySelectorAll(".choice");
-    userSelections.push({ question: q.question, selected: sel, correct: q.correct, explanation: q.explanation });
-    btns.forEach((b,i)=>{
-      b.disabled = true;
-      if (i === q.correct) b.classList.add("correct");
-    });
-
-    if (sel === q.correct) {
-      correctAnswers++;
-      document.getElementById("feedback").textContent = "🎉 Correct!";
-    } else {
-      btns[sel]?.classList.add("incorrect");
-      document.getElementById("feedback").textContent = "❌ Incorrect!";
+    function startQuiz() {
+        document.getElementById("home-screen").style.display = "none";
+        document.getElementById("quiz-screen").style.display = "block";
+        showQuestion();
     }
 
-    // 🔹 show reason immediately
-    document.getElementById("explanation").textContent = "👉 Reason: " + q.explanation;
+    function showQuestion() {
+        const q = questions[currentQuestion];
+        document.getElementById("question-text").innerHTML = `<strong>Q${currentQuestion+1}:</strong> ${q.question}`;
+        const btns = document.querySelectorAll("#quiz-screen .choice");
+        btns.forEach((b,i) => {
+            b.textContent = q.choices[i];
+            b.classList.remove("correct","incorrect");
+            b.disabled = false;
+        });
+        document.getElementById("feedback").textContent = "";
+        document.getElementById("explanation").textContent = "";
+    }
 
-    setTimeout(() => {
-      currentQuestion++;
-      if (currentQuestion < questions.length) showQuestion();
-      else { showSummary(); showScorePopup(); }
-    }, 2500); // wait 2.5s so user can read reason
-  }
+    function checkAnswer(sel) {
+        const q = questions[currentQuestion];
+        const btns = document.querySelectorAll("#quiz-screen .choice");
+        userSelections.push({ question: q.question, selected: sel, correct: q.correct, explanation: q.explanation });
+        btns.forEach((b,i)=>{
+            b.disabled = true;
+            if (i === q.correct) b.classList.add("correct");
+        });
 
-  function showSummary() {
-    const cont = document.querySelector(".quiz-container");
-    cont.innerHTML = `
-      <h2>📊 Quiz Summary</h2>
-      <table class="summary-table">
-        <thead>
-          <tr>
-            <th>Question</th>
-            <th>Your Answer</th>
-            <th>Correct Answer</th>
-            <th>Result</th>
-            <th>Explanation</th>
-          </tr>
-        </thead>
-        <tbody class="summary"></tbody>
-      </table>
-    `;
-    const tbody = cont.querySelector(".summary");
-    userSelections.forEach((s,i)=>{
-      const q = questions[i];
-      const isCorrect = s.selected === s.correct;
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${q.question}</td>
-        <td>${q.choices[s.selected]||"No Answer"}</td>
-        <td>${q.choices[q.correct]}</td>
-        <td style="color:${isCorrect ? 'blue':'black'}; font-weight:bold;">
-          ${isCorrect ? "Right ✅" : "Wrong ❌"}
-        </td>
-        <td>${q.explanation}</td>
-      `;
-      tbody.appendChild(tr);
-    });
-    const btn = document.createElement("button");
-    btn.textContent = "Go Back Home";
-    btn.className = "home-button";
-    btn.onclick = () => location.reload();
-    cont.appendChild(btn);
-  }
+        if (sel === q.correct) {
+            correctAnswers++;
+            document.getElementById("feedback").textContent = "🎉 Correct!";
+        } else {
+            btns[sel]?.classList.add("incorrect");
+            document.getElementById("feedback").textContent = "❌ Incorrect!";
+        }
 
-  function showScorePopup() {
-    Swal.fire({
-      title: `🎯 Your Score: <span style="color:#ffd700;">${correctAnswers}/${questions.length}</span>`,
-      icon: 'success',
-      html: `<p style="font-size:1.2em;color:#fff;">You've completed the quiz! Well done!</p>`,
-      background: '#1e2a38',
-      confirmButtonText: 'Done',
-      confirmButtonColor: '#ffd700'
-    });
-  }
+        document.getElementById("explanation").textContent = "👉 Reason: " + q.explanation;
+
+        setTimeout(() => {
+            currentQuestion++;
+            if (currentQuestion < questions.length) showQuestion();
+            else { showSummary(); showScorePopup(); }
+        }, 2500);
+    }
+
+    function showSummary() {
+        const cont = document.getElementById("quiz-screen");
+        cont.innerHTML = `
+            <h2>📊 Quiz Summary</h2>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Your Answer</th>
+                        <th>Correct Answer</th>
+                        <th>Result</th>
+                        <th>Explanation</th>
+                    </tr>
+                </thead>
+                <tbody class="summary"></tbody>
+            </table>
+        `;
+        const tbody = cont.querySelector(".summary");
+        userSelections.forEach((s,i)=>{
+            const q = questions[i];
+            const isCorrect = s.selected === s.correct;
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${q.question}</td>
+                <td>${q.choices[s.selected]||"No Answer"}</td>
+                <td>${q.choices[q.correct]}</td>
+                <td style="color:${isCorrect ? 'var(--primary-color)':'var(--incorrect-color)'}; font-weight:bold;">
+                    ${isCorrect ? "Right ✅" : "Wrong ❌"}
+                </td>
+                <td>${q.explanation}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+        const btn = document.createElement("button");
+        btn.textContent = "Go Back Home";
+        btn.className = "button home-button";
+        btn.onclick = () => location.reload();
+        cont.appendChild(btn);
+    }
+
+    function showScorePopup() {
+        Swal.fire({
+            title: `🎯 Your Score: <span style="color:var(--accent-color);"> ${correctAnswers}/${questions.length}</span>`,
+            icon: 'success',
+            html: `<p style="font-size:1.2em;color:#fff;">You've completed the quiz! Well done!</p>`,
+            background: 'var(--card-bg)',
+            confirmButtonText: 'View Summary',
+            confirmButtonColor: 'var(--primary-color)'
+        });
+    }
 </script>
 </body>
 </html>
